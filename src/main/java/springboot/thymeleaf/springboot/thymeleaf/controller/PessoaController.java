@@ -13,13 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import springboot.thymeleaf.springboot.thymeleaf.model.Pessoa;
+import springboot.thymeleaf.springboot.thymeleaf.model.Telefone;
 import springboot.thymeleaf.springboot.thymeleaf.repository.PessoaRepository;
+import springboot.thymeleaf.springboot.thymeleaf.repository.TelefoneRepository;
 
 @Controller
 public class PessoaController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private TelefoneRepository telefoneRepository;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
 	public ModelAndView inicio() {
@@ -88,5 +93,19 @@ public class PessoaController {
 		ModelAndView andView = new ModelAndView("cadastro/telefones");
 		andView.addObject("pessoaobj", pessoa.get());
 		return andView;	
+	}
+	
+	@PostMapping("**/addfonepessoa/{pessoaid}")
+	public ModelAndView addFonePessoa(Telefone telefone, 
+			@PathVariable("pessoaid") Long pessoaid) {
+		
+		Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
+		telefone.setPessoa(pessoa);
+		
+		telefoneRepository.save(telefone);
+		
+		ModelAndView andView = new ModelAndView("cadastro/telefones");
+		andView.addObject("pessoaobj", pessoa);
+		return andView;
 	}
 }
