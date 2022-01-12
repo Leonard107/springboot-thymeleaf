@@ -1,9 +1,15 @@
 package springboot.thymeleaf.springboot.thymeleaf.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +43,24 @@ public class PessoaController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="**/salvarpessoa")
-	public ModelAndView Salvar(Pessoa pessoa) {
+	public ModelAndView Salvar(@Valid Pessoa pessoa, BindingResult bindingResult) {
+		
+		if (bindingResult.hasErrors()) {
+			ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
+			Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
+			andView.addObject("pessoas", pessoasIt);
+			andView.addObject("pessoaobj", pessoa);
+			
+			List<String> msg = new ArrayList<String>();
+			for(ObjectError objectError : bindingResult.getAllErrors()) {
+				msg.add(objectError.getDefaultMessage()); //vem das anotações
+			}
+			andView.addObject("msgErro", msg);
+			
+			return andView;
+		}
+		
+		
 		pessoaRepository.save(pessoa);
 		
 		ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");

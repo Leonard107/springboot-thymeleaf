@@ -12,6 +12,10 @@
 <h3>Cadastro de Pessoas</h3>
 
 <div class="row">
+
+	<div th:each = "m : ${msgErro}">
+		<span th:text = "${m}"></span>
+	</div>
 	<form action="salvarpessoa"  id="formpessoa" method="post" th:object="${pessoaobj}" class="col s12">
 		
 		<div class="row">
