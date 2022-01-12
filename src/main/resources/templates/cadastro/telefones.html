@@ -42,9 +42,10 @@
 	</div>
 
 	<table class="striped">
-		<tr th:each="fone : ${telefones}">
-			<td th:text="${fone.numero}"></td>
-			<td th:text="${fone.tipo}"></td>
+		<tr th:each="telefone : ${telefones}">
+			<td th:text="${telefone.numero}"></td>
+			<td th:text="${telefone.tipo}"></td>
+			<td><a th:href="@{/removertelefone/{idtelefone}(idtelefone=${telefone.id})}">Excluir</a></td>
 		</tr>
 	
 	</table>
