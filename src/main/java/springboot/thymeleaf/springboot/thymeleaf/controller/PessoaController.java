@@ -124,8 +124,21 @@ public class PessoaController {
 			@PathVariable("pessoaid") Long pessoaid) {
 		
 		Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
-		telefone.setPessoa(pessoa);
 		
+		if(telefone != null && (telefone.getNumero() != null 
+				&& telefone.getNumero().isEmpty()) || telefone.getNumero() == null) {
+			ModelAndView andView = new ModelAndView("cadastro/telefones");
+			andView.addObject("pessoaobj", pessoa);
+			andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
+			
+			List<String> msg = new ArrayList<String>();
+			msg.add("Numero deve ser informado");
+			andView.addObject("msgErro", msg);
+			
+			return andView;
+		}
+		
+		telefone.setPessoa(pessoa);
 		telefoneRepository.save(telefone);
 		
 		ModelAndView andView = new ModelAndView("cadastro/telefones");
