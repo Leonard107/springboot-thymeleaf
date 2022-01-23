@@ -23,7 +23,10 @@
 </div>	
 	<h5>Telefones</h5>
 	
-	<div th:each = "m : ${msgErro}">
+	<div th:each = "m : ${msgErroNumero}">
+		<span th:text = "${m}"></span>
+	</div>
+	<div th:each = "m : ${msgErroTipo}">
 		<span th:text = "${m}"></span>
 	</div>
 	

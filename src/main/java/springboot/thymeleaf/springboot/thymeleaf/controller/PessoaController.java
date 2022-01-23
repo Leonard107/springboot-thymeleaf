@@ -125,18 +125,33 @@ public class PessoaController {
 		
 		Pessoa pessoa = pessoaRepository.findById(pessoaid).get();
 		
-		if(telefone != null && (telefone.getNumero() != null 
-				&& telefone.getNumero().isEmpty()) || telefone.getNumero() == null) {
+		
+		
+		if(telefone != null && telefone.getNumero().isEmpty()) {
 			ModelAndView andView = new ModelAndView("cadastro/telefones");
 			andView.addObject("pessoaobj", pessoa);
 			andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
 			
-			List<String> msg = new ArrayList<String>();
-			msg.add("Numero deve ser informado");
-			andView.addObject("msgErro", msg);
+			List<String> msgNumero = new ArrayList<String>();
+			msgNumero.add("Numero deve ser informado");
+			andView.addObject("msgErroNumero", msgNumero);
 			
 			return andView;
 		}
+		
+		if(telefone != null && telefone.getTipo().isEmpty()) {
+			ModelAndView andView = new ModelAndView("cadastro/telefones");
+			andView.addObject("pessoaobj", pessoa);
+			andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
+			
+			List<String> msgTipo = new ArrayList<String>();
+			msgTipo.add("Tipo deve ser informado");
+			andView.addObject("msgErroTipo", msgTipo);
+			
+			return andView;
+		}
+		
+		
 		
 		telefone.setPessoa(pessoa);
 		telefoneRepository.save(telefone);
