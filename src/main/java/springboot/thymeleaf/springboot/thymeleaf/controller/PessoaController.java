@@ -116,6 +116,7 @@ public class PessoaController {
 		ModelAndView andView = new ModelAndView("cadastro/telefones");
 		andView.addObject("pessoaobj", pessoa.get());
 		andView.addObject("telefones", telefoneRepository.getTelefones(idpessoa));
+		andView.addObject("telefoneobj", new Telefone());
 		return andView;	
 	}
 	
@@ -131,7 +132,7 @@ public class PessoaController {
 			ModelAndView andView = new ModelAndView("cadastro/telefones");
 			andView.addObject("pessoaobj", pessoa);
 			andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
-			
+			andView.addObject("telefoneobj", telefone);
 			List<String> msgNumero = new ArrayList<String>();
 			msgNumero.add("Numero deve ser informado");
 			andView.addObject("msgErroNumero", msgNumero);
@@ -143,7 +144,7 @@ public class PessoaController {
 			ModelAndView andView = new ModelAndView("cadastro/telefones");
 			andView.addObject("pessoaobj", pessoa);
 			andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
-			
+			andView.addObject("telefoneobj", telefone);
 			List<String> msgTipo = new ArrayList<String>();
 			msgTipo.add("Tipo deve ser informado");
 			andView.addObject("msgErroTipo", msgTipo);
